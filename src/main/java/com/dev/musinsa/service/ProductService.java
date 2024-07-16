@@ -81,7 +81,7 @@ public class ProductService {
 
     @Transactional
     @Retryable(
-            value = {ObjectOptimisticLockingFailureException.class},
+            retryFor = {ObjectOptimisticLockingFailureException.class},
             maxAttempts = 3,
             backoff = @Backoff(delay = 500)
     )

@@ -361,7 +361,7 @@ class ProductControllerIntegrationTest {
     void updateNonExistentProductTest() {
         //given
         ProductUpdateRequest request = new ProductUpdateRequest(Category.TOP, "Brand", 10000);
-        Long invalidProductId = 9999L;
+        long invalidProductId = 9999L;
         //when then
         webTestClient.put()
                 .uri("/api/products/" + invalidProductId)
@@ -382,7 +382,7 @@ class ProductControllerIntegrationTest {
 
         //when then
         webTestClient.delete()
-                .uri("/api/products/9999")
+                .uri("/api/products/" + invalidProductId)
                 .exchange()
                 .expectStatus()
                 .is4xxClientError()

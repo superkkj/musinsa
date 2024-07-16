@@ -26,6 +26,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -175,7 +176,7 @@ class ProductServiceTest {
         // Then
         assertNotNull(productId);
         Product savedProduct = productRepository.findById(productId).orElse(null);
-        assertNotNull(savedProduct);
+        assertNotNull(Objects.requireNonNull(savedProduct));
         assertEquals(Category.TOP, savedProduct.getCategory());
         assertEquals("TestBrand", savedProduct.getBrand());
         assertEquals(10000, savedProduct.getPrice());
@@ -197,7 +198,7 @@ class ProductServiceTest {
 
         // Then
         Product updatedProduct = productRepository.findById(product.getId()).orElse(null);
-        assertNotNull(updatedProduct);
+        assertNotNull(Objects.requireNonNull(updatedProduct));
         assertEquals(Category.OUTER, updatedProduct.getCategory());
         assertEquals("NewBrand", updatedProduct.getBrand());
         assertEquals(20000, updatedProduct.getPrice());
@@ -271,8 +272,8 @@ class ProductServiceTest {
         assertTrue(successCount.get() >= 1 && successCount.get() <= 2, "1-2개의 업데이트가 성공해야 합니다.");
         assertTrue(failCount.get() >= 3 && failCount.get() <= 4, "3-4개의 업데이트는 실패해야 합니다.");
 
-        Product updatedProduct = productRepository.findById(product.getId()).orElse(null);
-        assertNotNull(updatedProduct);
+        Product updatedProduct = productRepository.findById(Objects.requireNonNull(product).getId()).orElse(null);
+        assertNotNull(Objects.requireNonNull(updatedProduct));
         assertEquals(Category.OUTER, updatedProduct.getCategory());
         assertTrue(updatedProduct.getBrand().startsWith("NewBrand"));
         assertTrue(updatedProduct.getPrice() >= 20000 && updatedProduct.getPrice() < 20000 + numberOfThreads);
